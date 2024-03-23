@@ -1,0 +1,136 @@
+openapi: "3.0.0"
+info:
+  title: User Internal API
+  version: "0.1"
+
+paths:
+  /user/{identificationNumber}:
+    get:
+      summary: Get user by it identification number
+      operationId: "getUsersByIdentificationNumber"
+      tags:
+        - User
+      parameters:
+        - name: identificationNumber
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdentificationNumber"
+      responses:
+        '200':
+          description: "Get of an user by identification number its was successful."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /user:
+    post:
+      summary: Create user
+      operationId: "createUser"
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreationEnvelope'
+      responses:
+        '201':
+          description: "User creation was successful"
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /user/{userId}:
+    delete:
+      summary: Delete user
+      operationId: "deleteUserById"
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/UserId"
+      responses:
+        '200':
+          description: "User deletion was successful"
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  schemas:
+    User:
+      type: object
+      description: "User."
+      required:
+        - id
+        - name
+        - surname
+        - identificationNumber
+        - age
+      properties:
+        id:
+          $ref: "#/components/schemas/UserId"
+        name:
+          $ref: "#/components/schemas/Name"
+        surname:
+          $ref: "#/components/schemas/Surname"
+        identificationNumber:
+          $ref: "#/components/schemas/IdentificationNumber"
+        age:
+          $ref: "#/components/schemas/Age"
+
+    UserCreationEnvelope:
+      type: object
+      description: "User creation object."
+      required:
+        - name
+        - surname
+        - identificationNumber
+      properties:
+        name:
+          $ref: "#/components/schemas/Name"
+        surname:
+          $ref: "#/components/schemas/Surname"
+        identificationNumber:
+          $ref: "#/components/schemas/IdentificationNumber"
+
+    UserId:
+      type: string
+      format: uuid
+      description: "User ID."
+      example: "456a8e62-f79d-4452-834c-dedbfddb395e"
+    IdentificationNumber:
+      type: string
+      description: "Identification number of an user."
+      example: "845128/6219"
+    Name:
+      type: string
+      description: "Name of an user."
+      example: "Paul"
+    Surname:
+      type: string
+      description: "Surname of an user."
+      example: "White"
+    Age:
+      type: integer
+      description: "Age of an user."
+      example: 18
+
+  responses:
+    NotFound:
+      description: "Resource not found."
+    BadRequest:
+      description: "Bad Request."

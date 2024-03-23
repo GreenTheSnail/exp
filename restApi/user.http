@@ -1,0 +1,15 @@
+### Extract by identification number
+GET http://localhost:8080/user/1111111112
+
+### Create
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "name" : "Adam",
+  "surname" : "White",
+  "identificationNumber" : "111111/1111"
+}
+
+### Delete
+DELETE http://localhost:8080/user/9b2007dd-2229-4a29-baf2-a89510efe139
