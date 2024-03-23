@@ -115,7 +115,7 @@ components:
     IdentificationNumber:
       type: string
       description: "Identification number of an user."
-      example: "845128/6219"
+      example: "100510/6219"
     Name:
       type: string
       description: "Name of an user."
